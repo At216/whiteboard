@@ -1,4 +1,4 @@
-# whiteboard
+# Whiteboard
 HTML, JS whiteboard via SVG
 
 
