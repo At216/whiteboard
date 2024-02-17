@@ -1,0 +1,104 @@
+<svg id='sgvelement' height="500px" width="100%" xmlns="http://www.w3.org/2000/svg" onmousedown='down()' onmouseup='up()' onmousemove="findCoordinates(event)">
+    Error message
+    </svg>
+    
+    <br><br>
+    <div style="background-color:black; width:25px; height:25px; display: inline-block" onclick='colors("black")'></div>
+    <div style="background-color:blue; width:25px; height:25px; display: inline-block" onclick='colors("blue")'></div>
+    <div style="background-color:green; width:25px; height:25px; display: inline-block" onclick='colors("green")'></div>
+    <div style="background-color:gray; width:25px; height:25px; display: inline-block" onclick='colors("white")'></div>
+    <button onclick='save_as_svg()'>Download</button>
+    <div id="xycoordinates"></div>
+    
+    <script>
+    function save_as_svg(){
+        var svg_data = document.getElementById("sgvelement").innerHTML //put id of your svg element here
+        var head = '<svg title="graph" version="1.1" xmlns="http://www.w3.org/2000/svg">'
+    
+        //if you have some additional styling like graph edges put them inside <style> tag
+        //var style = '<style>circle {cursor: pointer;stroke-width: 1.5px;}text {font: 10px arial;}path {stroke: DimGrey;stroke-width: 1.5px;}</style>'
+        var style = ''
+    
+        var full_svg = head +  style + svg_data + "</svg>"
+    
+        downloadfile = String(full_svg)
+        const file = new File([downloadfile], 'download.svg', {
+         type: 'image/svg+xml',
+        })
+        
+        const link = document.createElement('a')
+        const url = URL.createObjectURL(file)
+        
+        link.href = url
+        link.download = file.name
+        document.body.appendChild(link)
+        link.click()
+        
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(url)
+    
+    };
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    var color = 'blue';
+    function colors(flavor) {
+        color = flavor
+    }
+    
+    var state = false
+    function down() {
+        state = true
+        findCoordinates(event) //Make dots
+    }
+    function up() {
+        state = false
+    }
+    function findCoordinates(pos) {
+      x=pos.clientX;
+      y=pos.clientY;
+      document.getElementById("xycoordinates").innerHTML="Coordinates: (" + x + "," + y + ")";
+    
+      if(state == true) {
+      let rectangle = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rectangle.setAttribute("width", "10");
+      rectangle.setAttribute("height", "10");
+      rectangle.setAttribute("x", String(x-11));
+      rectangle.setAttribute("y", String(y-11));
+      rectangle.setAttribute("rx", "50");
+      rectangle.setAttribute("ry", "20");
+      rectangle.setAttribute("fill", color);
+      document.getElementById("sgvelement").appendChild(rectangle);
+      }
+      
+    }
+    //Inspired by W3 https://www.w3schools.com/graphics/canvas_coordinates.asp
+    
+    </script>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      <rect width="200" height="100" x="100" y="50" rx="20" ry="20" fill="blue" />
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <style>
+    svg{
+       background-color:white;
+       border: 1px solid;
+    }
+    
+    </style>
